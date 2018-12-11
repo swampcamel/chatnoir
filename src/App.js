@@ -27,9 +27,14 @@ class App extends Component {
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
   render() {
-    console.log(this.props)
+    console.log(this.props.authData.username)
     return (
       <div>
+      <Switch>
+        <Route exact path='/' render={()=><Lobby />} />
+        <Route path='/chatroom/:id' render={()=><ChatRoom />} />
+        <Route component={Error404} />
+      </Switch>
       <br/>
       <button type="button" onClick={() => this.signOut()}>Sign Out</button>
       <button onClick={() => this.logUser()}>Log user</button>
