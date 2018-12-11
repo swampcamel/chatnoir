@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Input } from '@material-ui/core';
 import styled, { css } from 'styled-components';
+import { Query } from "react-apollo";
+import gql from 'graphql-tag';
 
 const Card = styled.div`
   height: 800px;
@@ -35,6 +37,15 @@ const H1 = styled.h1`
 `;
 
 
+const GET_USERS = gql`
+  {
+    listUsers{
+      items{
+        userName
+      }
+    }
+  }
+`;
 
 
 const Div = styled.div`
@@ -53,7 +64,6 @@ class Lobby extends React.Component{
          <CardHeader>
            <H1>Create New Room</H1>
          </CardHeader>
-         <Input type='text' placeholder='Enter Room Name' />
 
        </Card>
        <Card secondary>
@@ -61,6 +71,24 @@ class Lobby extends React.Component{
            <H1>Create New Room</H1>
          </CardHeader>
        </Card>
+
+
+       <Query query={GET_USERS}>
+         {({ loading, error, data }) => {
+           if (loading) return "Loading...";
+           if (error) return `Error! ${error.message}`;
+           console.log(data)
+
+           return (
+             <div>
+                 {data.listUsers.items.map((item, index) => (
+                   <p key={index}>{item.userName}</p>
+                 ))}
+
+             </div>
+           );
+         }}
+       </Query>
      </Div>
     )
   }
