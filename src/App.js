@@ -24,6 +24,13 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
+  signOut() {
+    Auth.signOut({ global: true }).then(data => console.log(data)).catch(err => console.log(err));
+  }
+  logUser() {
+    Auth.currentAuthenticatedUser({
+  bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
+  }
   render() {
     console.log(this.props)
     return (
@@ -48,8 +55,8 @@ class App extends Component {
       </Query>
       <AddUserForm />
       <br/>
-      <button onClick={Auth.signOut({ global: true }).then(data => console.log(data))
-      .catch(err => console.log(err))}>Sign Out</button>
+      <button type="button" onClick={() => this.signOut()}>Sign Out</button>
+      <button onClick={() => this.logUser()}>Log user</button>
     </div>
     );
   }
