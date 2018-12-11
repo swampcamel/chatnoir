@@ -27,7 +27,7 @@ class App extends Component {
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
   render() {
-    console.log(this.props)
+    console.log(this.props.authData.username)
     return (
       <div>
         <Switch>
@@ -36,12 +36,10 @@ class App extends Component {
           <Route component={Error404} />
         </Switch>
         <br/>
-        <button onClick={Auth.signOut({ global: true }).then(data => console.log(data))
-          .catch(err => console.log(err))}>Sign Out</button>
-          <br/>
-          <button type="button" onClick={() => this.signOut()}>Sign Out</button>
-          <button onClick={() => this.logUser()}>Log user</button>
-        </div>
+        <button type="button" onClick={() => this.signOut()}>Sign Out</button>
+        <button onClick={() => this.logUser()}>Log user</button>
+    </div>
+
     );
   }
 }
