@@ -7,6 +7,8 @@ import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
 
+import { HashRouter } from 'react-router-dom';
+
 import appSyncConfig from './appsync';
 
 const client = new AWSAppSyncClient({
@@ -22,7 +24,9 @@ const client = new AWSAppSyncClient({
 const WithProvider = () => (
   <ApolloProvider client={client}>
     <Rehydrated>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </Rehydrated>
   </ApolloProvider>
 );
