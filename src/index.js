@@ -27,7 +27,6 @@ const fedConfig = {
   facebook_app_id: '210734629816256'
 }
 
-const greet = true;
 
 const WithProvider = () => (
   <ApolloProvider client={client}>

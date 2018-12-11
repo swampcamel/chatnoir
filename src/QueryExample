@@ -21,9 +21,9 @@ const GET_USERS = gql`
       <div>
         <select>
           {data.listUsers.items.map(item => (
-            <option key={item.userName} value={item.userName}>
+            <input key={item.userName} value={item.userName}>
               {item.userName}
-            </option>
+            </input>
           ))}
         </select>
       </div>
