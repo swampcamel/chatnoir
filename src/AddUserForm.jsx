@@ -41,11 +41,12 @@ class AddUserForm extends Component {
         update={(cache, { data: { createUser } }) => {
         const data = cache.readQuery({ query: GET_USERS });
 
-        console.log({ listUsers: { items: [...data.listUsers.items, createUser] }, __typename: "UserConnection"})
-
+        console.log("TWice?")
         cache.writeQuery({
           query: GET_USERS,
-          data: { listUsers: { items: [...data.listUsers.items, createUser] }, __typename: "UserConnection"}
+          data: { listUsers: {
+            items: [...data.listUsers.items, createUser],
+            __typename: "UserConnection" }}
         });
       }}>
       {(createUser, { data }) => (

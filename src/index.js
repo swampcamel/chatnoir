@@ -15,7 +15,8 @@ const client = new AWSAppSyncClient({
   auth: {
     type: "API_KEY",
     apiKey: "da2-vg6xipydvnas3jme7dvowftbwe",
-  }
+  },
+  disableOffline: true
 });
 
 const WithProvider = () => (

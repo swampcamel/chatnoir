@@ -22,6 +22,7 @@ const GET_USERS = gql`
 class App extends Component {
   render() {
     return (
+      <div>
       <Query query={GET_USERS}>
         {({ loading, error, data }) => {
           if (loading) return "Loading...";
@@ -29,7 +30,6 @@ class App extends Component {
           console.log(data)
           return (
             <div>
-              <AddUserForm />
               <select>
                 {data.listUsers.items.map(item => (
                   <option key={item.userName} value={item.userName}>
@@ -41,6 +41,8 @@ class App extends Component {
           );
         }}
       </Query>
+      <AddUserForm />
+    </div>
     );
   }
 }
