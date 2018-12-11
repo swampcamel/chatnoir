@@ -10,7 +10,9 @@ import ChatRoom from './ChatRoom';
 import Error404 from './Error404';
 import Amplify, { Auth } from 'aws-amplify';
 import aws_exports from './aws-exports';
+import client from './index.js'
 import { withAuthenticator } from 'aws-amplify-react';
+import { ApolloConsumer } from 'react-apollo';
 Amplify.configure(aws_exports);
 
 
@@ -27,18 +29,21 @@ class App extends Component {
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
   render() {
-    console.log(this.props.authData)
+
+    client.writeData({ data: { currentUser: this.props.authData.username } })
+
     return (
       <div>
-      <Switch>
-        <Route exact path='/' render={()=><Lobby />} />
-        <Route path='/chatroom/:id' render={()=><ChatRoom />} />
-        <Route component={Error404} />
-      </Switch>
-      <br/>
-      <button type="button" onClick={() => this.signOut()}>Sign Out</button>
-      <button onClick={() => this.logUser()}>Log user</button>
+        <Switch>
+          <Route exact path='/' render={()=><Lobby />} />
+          <Route path='/chatroom/:id' render={()=><ChatRoom />} />
+          <Route component={Error404} />
+        </Switch>
+        <br/>
+        <button type="button" onClick={() => this.signOut()}>Sign Out</button>
+        <button onClick={() => this.logUser()}>Log user</button>
     </div>
+
     );
   }
 }

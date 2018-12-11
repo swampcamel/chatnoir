@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 
+
 const Card = styled.div`
   height: 800px;
   background-color: #1A1A1A;
@@ -36,33 +37,42 @@ const H1 = styled.h1`
   margin: 0;
 `;
 
+const Div = styled.div`
+  display: flex;
+`;
 
-const GET_USERS = gql`
+
+const GET_CURRENTUSER = gql`
   {
-    listUsers{
-      items{
-        userName
-      }
-    }
+    currentUser @client
   }
 `;
 
 
-const Div = styled.div`
-  display: flex;
-`
+
+
 class Lobby extends React.Component{
 
-  logUser(){
-    console.log("user");
-  }
+
 
   render(){
     return(
-      <Div onClick={this.logUser}>
+      <Div>
+        <Query query={GET_CURRENTUSER}>
+          {({ loading, error, data }) => {
+            if (loading) return "Loading...";
+            if (error) return `Error! ${error.message}`;
+            console.log(data)
+            return (
+              <H1>
+                { data.currentUser }
+              </H1>
+            );
+          }}
+        </Query>
        <Card primary>
          <CardHeader>
-           <H1>Create New Room</H1>
+
          </CardHeader>
 
        </Card>
@@ -71,31 +81,9 @@ class Lobby extends React.Component{
            <H1>Create New Room</H1>
          </CardHeader>
        </Card>
-
-
-       <Query query={GET_USERS}>
-         {({ loading, error, data }) => {
-           if (loading) return "Loading...";
-           if (error) return `Error! ${error.message}`;
-           console.log(data)
-
-           return (
-             <div>
-                 {data.listUsers.items.map((item, index) => (
-                   <p key={index}>{item.userName}</p>
-                 ))}
-
-             </div>
-           );
-         }}
-       </Query>
      </Div>
     )
   }
 }
 
 export default Lobby;
-
-{/* <Button variant="contained" color="primary">
-  Lobb
-</Button> */}
