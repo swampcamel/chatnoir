@@ -1,0 +1,73 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "chatnoir-20181211090759-authRole",
+			"UnauthRoleArn": "arn:aws:iam::783008988015:role/chatnoir-20181211090759-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::783008988015:role/chatnoir-20181211090759-authRole",
+			"Region": "us-west-2",
+			"DeploymentBucketName": "chatnoir-20181211090759-deployment",
+			"UnauthRoleName": "chatnoir-20181211090759-unauthRole",
+			"StackName": "chatnoir-20181211090759",
+			"StackId": "arn:aws:cloudformation:us-west-2:783008988015:stack/chatnoir-20181211090759/4faa4da0-fd67-11e8-a7a3-0ade61d04ee6"
+		}
+	},
+	"auth": {
+		"cognito04b0bb87": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/chatnoir-20181211090759-deployment/amplify-cfn-templates/auth/cognito04b0bb87-cloudformation-template.yml",
+				"logicalId": "authcognito04b0bb87"
+			},
+			"lastPushTimeStamp": "2018-12-11T17:53:20.634Z",
+			"output": {
+				"IdentityPoolId": "us-west-2:a07f058b-24b4-4c04-bd0b-dd6a67fa3af4",
+				"IdentityPoolName": "chatnoir_identitypool_f1e73677",
+				"GoogleWebClient": "310404652388-70bma0qvhp9ahlgg6v30s99e5moeoov3.apps.googleusercontent.com",
+				"AppClientSecret": "1h77cpeggg9gd2j7de9p5smqbkijmd4gesbi84ru9jldmggcjgeu",
+				"UserPoolId": "us-west-2_5BFoT0YNC",
+				"AppClientIDWeb": "4d949dt29m58fujrl98ku08t0f",
+				"AppClientID": "3fup3h5chiumhvn2knnjefn4ov",
+				"FacebookWebClient": "210734629816256",
+				"UserPoolName": "cognito04b0bb87_userpool_7e7000df"
+			},
+			"lastPushDirHash": "0Gj4hWQ5W0ul+JyBT5deTy6tjKo=",
+			"[object Object]": {}
+		}
+	},
+	"analytics": {
+		"chatnoir": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/chatnoir-20181211090759-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
+				"logicalId": "analyticschatnoir"
+			},
+			"lastPushTimeStamp": "2018-12-11T17:53:20.632Z",
+			"output": {
+				"appName": "chatnoir",
+				"Region": "us-east-1",
+				"Id": "f32cc6783c4142708843ecd69d03c66a"
+			},
+			"lastPushDirHash": "BwuLNAqZolg9EDQeYeC3AgWoAlA="
+		}
+	},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/chatnoir-20181211090759-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
+			},
+			"lastPushTimeStamp": "2018-12-11T17:53:20.633Z",
+			"output": {
+				"S3BucketSecureURL": "https://chatnoir-20181211090852-hostingbucket.s3.amazonaws.com",
+				"WebsiteURL": "http://chatnoir-20181211090852-hostingbucket.s3-website-us-west-2.amazonaws.com",
+				"Region": "us-west-2",
+				"HostingBucketName": "chatnoir-20181211090852-hostingbucket"
+			},
+			"lastPushDirHash": "lsXocvVaQMG8e1mxgPKtqdybWbk="
+		}
+	}
+}

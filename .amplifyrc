@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "chatnoir-20181211090759-authRole",
+            "UnauthRoleArn": "arn:aws:iam::783008988015:role/chatnoir-20181211090759-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::783008988015:role/chatnoir-20181211090759-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "chatnoir-20181211090759-deployment",
+            "UnauthRoleName": "chatnoir-20181211090759-unauthRole",
+            "StackName": "chatnoir-20181211090759",
+            "StackId": "arn:aws:cloudformation:us-west-2:783008988015:stack/chatnoir-20181211090759/4faa4da0-fd67-11e8-a7a3-0ade61d04ee6"
+        }
+    }
+}

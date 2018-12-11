@@ -5,6 +5,10 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import AddUserForm from './AddUserForm';
 
+import Amplify, { Auth } from 'aws-amplify';
+import aws_exports from './aws-exports';
+import { withAuthenticator } from 'aws-amplify-react';
+Amplify.configure(aws_exports);
 
 const GET_USERS = gql`
   {
@@ -16,11 +20,12 @@ const GET_USERS = gql`
   }
 `;
 
-
-
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    console.log(this.props)
     return (
       <div>
       <Query query={GET_USERS}>
@@ -42,9 +47,12 @@ class App extends Component {
         }}
       </Query>
       <AddUserForm />
+      <br/>
+      <button onClick={Auth.signOut({ global: true }).then(data => console.log(data))
+      .catch(err => console.log(err))}>Sign Out</button>
     </div>
     );
   }
 }
 
-export default App;
+export default withAuthenticator(App);
