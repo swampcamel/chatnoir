@@ -5,12 +5,20 @@ import './App.css';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import AddUserForm from './AddUserForm';
+<<<<<<< HEAD
 import Home from './Home';
 import Login from './Login';
 import SignUp from './SignUp';
 import Lobby from './Lobby';
 import ChatRoom from './ChatRoom';
 import Error404 from './Error404';
+=======
+
+import Amplify, { Auth } from 'aws-amplify';
+import aws_exports from './aws-exports';
+import { withAuthenticator } from 'aws-amplify-react';
+Amplify.configure(aws_exports);
+>>>>>>> master
 
 const GET_USERS = gql`
   {
@@ -22,11 +30,12 @@ const GET_USERS = gql`
   }
 `;
 
-
-
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    console.log(this.props)
     return (
       <div>
       <Query query={GET_USERS}>
@@ -50,15 +59,16 @@ class App extends Component {
       <AddUserForm />
       <Switch>
           <Route exact path='/' render={()=><Home />} />
-          <Route path='/login' render={()=><Login />} />
-          <Route path='/signup' render={()=><SignUp />} />
           <Route path='/Lobby' render={()=><Lobby />} />
           <Route path='/chatroom' render={()=><ChatRoom />} />
           <Route component={Error404} />
         </Switch>
+      <br/>
+      <button onClick={Auth.signOut({ global: true }).then(data => console.log(data))
+      .catch(err => console.log(err))}>Sign Out</button>
     </div>
     );
   }
 }
 
-export default App;
+export default withAuthenticator(App);

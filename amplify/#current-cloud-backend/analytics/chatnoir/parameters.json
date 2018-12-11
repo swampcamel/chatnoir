@@ -1,0 +1,11 @@
+{
+    "appName": "chatnoir",
+    "roleName": "pinpointLambdaRoleef505d84",
+    "cloudWatchPolicyName": "cloudWatchPolicyef505d84",
+    "pinpointPolicyName": "pinpointPolicyef505d84",
+    "authPolicyName": "pinpoint_amplify_ef505d84",
+    "unauthPolicyName": "pinpoint_amplify_ef505d84",
+    "authRoleName": "chatnoir-20181211090759-authRole",
+    "unauthRoleName": "chatnoir-20181211090759-unauthRole",
+    "IAMPrefix": "783008988015"
+}
