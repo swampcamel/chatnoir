@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+    
+  identityPoolName:
+    Type: String
+              
+  allowUnauthenticatedIdentities:
+    Type: String
+            
+  thirdPartyAuth:
+    Type: String
+          
+  lambdaLogPolicy:
+    Type: String
+            
+  openIdLambdaRoleName:
+    Type: String
+            
+  openIdRolePolicy:
+    Type: String
+            
+  openIdLambdaIAMPolicy:
+    Type: String
+            
+  openIdLogPolicy:
+    Type: String
+            
+  authSelections:
+    Type: String
+            
+  resourceName:
+    Type: String
+            
+  unAuthRoleName:
+    Type: String
+            
+  authRoleName:
+    Type: String
+            
+  unAuthRoleArn:
+    Type: String
+            
+  authRoleArn:
+    Type: String
+          
+Resources:
+    
+  # BEGIN IDENTITY POOL RESOURCES
+  
+  
+  IdentityPool:
+  # Always created
+    Type: AWS::Cognito::IdentityPool
+    Properties: 
+      IdentityPoolName: chatnoir_identitypool_5a95b707
+            
+      AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
+       
+    
+  
+  IdentityPoolRoleMap:
+  # Created to map Auth and Unauth roles to the identity pool
+  # Depends on Identity Pool for ID ref
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties: 
+      IdentityPoolId: !Ref IdentityPool
+      Roles:
+          unauthenticated: !Ref unAuthRoleArn
+          authenticated: !Ref authRoleArn
+    DependsOn: IdentityPool
+  
+
+Outputs :
+  
+  IdentityPoolId:
+    Value: !Ref 'IdentityPool'
+    Description:  Id for the identity pool
+  IdentityPoolName:
+    Value: !GetAtt IdentityPool.Name 
+  
+  
