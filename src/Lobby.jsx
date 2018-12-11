@@ -7,6 +7,7 @@ const Card = styled.div`
   background-color: #1A1A1A;
   margin: 20px;
 
+
   ${props =>
     props.primary &&
     css`
@@ -27,6 +28,7 @@ const CardHeader = styled.div`
 `;
 
 const H1 = styled.h1`
+  font-size: 26px;
   color: whitesmoke;
   padding: 10px;
   margin: 0;
