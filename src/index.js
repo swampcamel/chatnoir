@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-
 import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
+import { HashRouter } from 'react-router-dom';
 
 
 import appSyncConfig from './appsync';
@@ -31,7 +31,9 @@ const fedConfig = {
 const WithProvider = () => (
   <ApolloProvider client={client}>
     <Rehydrated>
-      <App federated={fedConfig}/>
+      <HashRouter>
+        <App federated={fedConfig}/>
+      </HashRouter>
     </Rehydrated>
   </ApolloProvider>
 );
