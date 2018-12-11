@@ -10,7 +10,9 @@ import ChatRoom from './ChatRoom';
 import Error404 from './Error404';
 import Amplify, { Auth } from 'aws-amplify';
 import aws_exports from './aws-exports';
+import client from './index.js'
 import { withAuthenticator } from 'aws-amplify-react';
+import { ApolloConsumer } from 'react-apollo';
 Amplify.configure(aws_exports);
 
 
@@ -27,7 +29,8 @@ class App extends Component {
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
   render() {
-    console.log(this.props.authData.username)
+    client.writeData({ data: { currentUser: this.props.authData.username } })
+    console.log(client.cache.data.data.ROOT_QUERY)
     return (
       <div>
         <Switch>

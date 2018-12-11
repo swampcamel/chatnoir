@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input } from '@material-ui/core';
 import styled, { css } from 'styled-components';
+import gql from "graphql-tag";
+import client from './index.js'
+import { Query } from 'react-apollo';
 
 const Card = styled.div`
   height: 800px;
@@ -34,24 +37,52 @@ const H1 = styled.h1`
   margin: 0;
 `;
 
-
-
-
 const Div = styled.div`
   display: flex;
-`
+`;
+
+const GET_CURRENTUSER = gql`
+  {
+    currentUser @client
+  }
+`;
+
+async function getCurrentUser(){
+  const { data } = await client.query({
+  query: gql`{
+    currentUser @client
+  }`,
+});
+return data
+}
+
+
 class Lobby extends React.Component{
 
-  logUser(){
-    console.log("user");
-  }
+
 
   render(){
+    let user = null;
+    getCurrentUser().then( data => {
+      user = data.currentUser;
+    });
     return(
-      <Div onClick={this.logUser}>
+      <Div>
+        <Query query={GET_CURRENTUSER}>
+          {({ loading, error, data }) => {
+            if (loading) return "Loading...";
+            if (error) return `Error! ${error.message}`;
+            console.log(data)
+            return (
+              <H1>
+                { data.currentUser }
+              </H1>
+            );
+          }}
+        </Query>
        <Card primary>
          <CardHeader>
-           <H1>Create New Room</H1>
+           <H1>{user}</H1>
          </CardHeader>
          <Input type='text' placeholder='Enter Room Name' />
 
@@ -67,7 +98,3 @@ class Lobby extends React.Component{
 }
 
 export default Lobby;
-
-{/* <Button variant="contained" color="primary">
-  Lobb
-</Button> */}

@@ -39,3 +39,5 @@ const WithProvider = () => (
 );
 
 ReactDOM.render(<WithProvider />, document.getElementById('root'));
+
+export default client;
