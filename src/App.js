@@ -27,7 +27,7 @@ class App extends Component {
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
   render() {
-    console.log(this.props)
+    console.log(this.props.authData.username)
     return (
       <div>
       <br/>
