@@ -30,10 +30,18 @@ class App extends Component {
     console.log(this.props)
     return (
       <div>
-      <br/>
-      <button type="button" onClick={() => this.signOut()}>Sign Out</button>
-      <button onClick={() => this.logUser()}>Log user</button>
-    </div>
+        <Switch>
+          <Route exact path='/' render={()=><Lobby />} />
+          <Route path='/chatroom/:id' render={()=><ChatRoom />} />
+          <Route component={Error404} />
+        </Switch>
+        <br/>
+        <button onClick={Auth.signOut({ global: true }).then(data => console.log(data))
+          .catch(err => console.log(err))}>Sign Out</button>
+          <br/>
+          <button type="button" onClick={() => this.signOut()}>Sign Out</button>
+          <button onClick={() => this.logUser()}>Log user</button>
+        </div>
     );
   }
 }
