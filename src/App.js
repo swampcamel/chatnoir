@@ -22,15 +22,16 @@ class App extends Component {
     super(props);
   }
   signOut() {
-    Auth.signOut({ global: true }).then(data => console.log(data)).catch(err => console.log(err));
+    Auth.signOut({ global: true }).then(() => this.props.onStateChange('signedOut', null)).catch(err => console.log(err));
   }
   logUser() {
     Auth.currentAuthenticatedUser({
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
   render() {
+
     client.writeData({ data: { currentUser: this.props.authData.username } })
-    console.log(client.cache.data.data.ROOT_QUERY)
+
     return (
       <div>
         <Switch>

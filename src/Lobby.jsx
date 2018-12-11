@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input } from '@material-ui/core';
 import styled, { css } from 'styled-components';
-import gql from "graphql-tag";
-import client from './index.js'
-import { Query } from 'react-apollo';
+import { Query } from "react-apollo";
+import gql from 'graphql-tag';
+
 
 const Card = styled.div`
   height: 800px;
@@ -41,20 +41,14 @@ const Div = styled.div`
   display: flex;
 `;
 
+
 const GET_CURRENTUSER = gql`
   {
     currentUser @client
   }
 `;
 
-async function getCurrentUser(){
-  const { data } = await client.query({
-  query: gql`{
-    currentUser @client
-  }`,
-});
-return data
-}
+
 
 
 class Lobby extends React.Component{
@@ -62,10 +56,6 @@ class Lobby extends React.Component{
 
 
   render(){
-    let user = null;
-    getCurrentUser().then( data => {
-      user = data.currentUser;
-    });
     return(
       <Div>
         <Query query={GET_CURRENTUSER}>
@@ -82,9 +72,8 @@ class Lobby extends React.Component{
         </Query>
        <Card primary>
          <CardHeader>
-           <H1>{user}</H1>
+
          </CardHeader>
-         <Input type='text' placeholder='Enter Room Name' />
 
        </Card>
        <Card secondary>
