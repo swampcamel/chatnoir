@@ -30,30 +30,6 @@ class App extends Component {
     console.log(this.props)
     return (
       <div>
-      <Query query={GET_USERS}>
-        {({ loading, error, data }) => {
-          if (loading) return "Loading...";
-          if (error) return `Error! ${error.message}`;
-          console.log(data)
-          return (          
-            <div>
-            <Switch>
-            <Route exact path='/' render={()=><Lobby />} />
-            <Route path='/chatroom/:id' render={()=><ChatRoom />} />
-            <Route component={Error404} />
-            </Switch>
-              <select>
-                {data.listUsers.items.map(item => (
-                  <option key={item.userName} value={item.userName}>
-                    {item.userName}
-                  </option>
-                ))}
-              </select>
-            </div>
-          );
-        }}
-      </Query>
-      <AddUserForm />
       <br/>
       <button type="button" onClick={() => this.signOut()}>Sign Out</button>
       <button onClick={() => this.logUser()}>Log user</button>
