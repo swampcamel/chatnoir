@@ -7,6 +7,8 @@ import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
 import { HashRouter } from 'react-router-dom';
 
+import styled, { css } from 'styled-components';
+
 
 import appSyncConfig from './appsync';
 
