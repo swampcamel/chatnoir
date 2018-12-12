@@ -15,12 +15,44 @@ import { withAuthenticator } from 'aws-amplify-react';
 import { ApolloConsumer } from 'react-apollo';
 Amplify.configure(aws_exports);
 
+async function updateUserList(){
+  const { data } = await client.query({
+  query: gql`
+    {
+      listUsers{
+        items{
+          userName
+        }
+      }
+    }
+  `,
+});
+  return data;
+}
+
+const CREATE_USER = gql`
+  mutation CreateUser($userName: String!){
+    createUser( input: { userName: $userName } ){
+      userName
+    }
+  }
+`
+
+async function mutateUserList(currentUser){
+  const { data } = await client.mutate({
+    mutation: CREATE_USER,
+    variables: { userName: currentUser},
+  });
+  return data;
+}
+
 
 
 class App extends Component {
   constructor(props) {
     super(props);
   }
+
   signOut() {
     Auth.signOut({ global: true }).then(() => this.props.onStateChange('signedOut', null)).catch(err => console.log(err));
   }
@@ -28,9 +60,21 @@ class App extends Component {
     Auth.currentAuthenticatedUser({
   bypassCache: false}).then(user => console.log(user)).catch(err => console.log(err))
   }
-  render() {
 
-    client.writeData({ data: { currentUser: this.props.authData.username } })
+  render() {
+    let currentUser = this.props.authData.username;
+
+    client.writeData({ data: { currentUser: currentUser } })
+    updateUserList().then(data => {
+      let userArray = data.listUsers.items;
+      const result = userArray.filter(user => user.userName == currentUser);
+      // if (array is empty) {
+      //   mutate it
+      // }
+      console.log(result)
+      console.log(userArray)
+      console.log(currentUser)
+      });
 
     return (
       <div>
