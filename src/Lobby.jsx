@@ -48,6 +48,15 @@ const GET_CURRENTUSER = gql`
   }
 `;
 
+const GET_USERS = gql`
+  {
+    listUsers{
+      items{
+        userName
+      }
+    }
+  }
+`;
 
 
 
