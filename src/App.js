@@ -116,7 +116,6 @@ class App extends Component {
     return (
       <div>
         <Header>
-
           <div style={{display: 'flex', minWidth: '1550px', justifyContent: 'space-between', margin: '0 auto'}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <img style={{padding: '8px'}} src={catSVG}/>
