@@ -1,0 +1,6 @@
+endpoint: https://us1.prisma.sh/chat-noir-demo/chat-noir-graphql-demo/dev
+datamodel: datamodel.graphql
+
+hooks:
+  post-deploy:
+    - graphql get-schema --project database
