@@ -21,11 +21,9 @@ async function updateUserList(){
   const { data } = await client.query({
     query: gql`
     {
-      listUsers
-      {
-        items{
-          userName
-        }
+      users{
+        name
+        id
       }
     }
     `,
@@ -35,8 +33,8 @@ async function updateUserList(){
 
 const CREATE_USER = gql`
 mutation CreateUser($userName: String!){
-  createUser( input: { id: "1", userName: $userName } ){
-    userName
+  createUser( data: { name: $userName } ){
+    name
   }
 }
 `
@@ -105,10 +103,14 @@ class App extends Component {
     let currentUser = this.props.authData.username;
     client.writeData({ data: { currentUser: currentUser } })
     updateUserList().then(data => {
-      let userArray = data.listUsers.items;
-      const result = userArray.filter(user => user.userName == currentUser);
+      let userArray = data.users;
+      const result = userArray.filter(user => user.name == currentUser);
+      if (result[0]){
+        console.log(result[0].id)
+        client.writeData({ data: { currentUserID: result[0].id } })
+      }
       if(result.length <= 0){
-        console.log("hit")
+        console.log(result)
         mutateUserList(currentUser);
       }
     });

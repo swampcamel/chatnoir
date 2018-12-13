@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Input } from '@material-ui/core';
 import styled, { css } from 'styled-components';
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import gql from 'graphql-tag';
 import catSVG from './assets/Group.svg';
 
@@ -70,6 +70,10 @@ const P = styled.p`
   color: white;
   margin-bottom: 20px;
 `;
+const UserName = styled.span`
+  color: teal;
+  margin-bottom: 20px;
+`;
 const P2 = styled.p`
   color: white;
   text-align: right;
@@ -94,10 +98,34 @@ const GET_MESSAGES = gql`
   messages {
     content
       user{
+        id
         name
       }
     }
 }`
+const CREATE_MESSAGE = gql`
+  mutation createMessage($content: String!, $userid: ID, $room: ID) {
+    createMessage(data: {
+      content: $content,
+      room: { connect: { id: $room }},
+      user: { connect: { id: $userid}}
+    }) {
+      id
+      content
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const GET_CURRENTINFO = gql`
+{
+  currentUserID @client
+  currentRoomID @client
+}
+`;
 
 class ChatRoom extends React.Component{
   constructor(props) {
@@ -144,13 +172,52 @@ class ChatRoom extends React.Component{
                     <div>
                       {data.messages.map((message, index) => (
                         <div key={index}>
-                          <P>{message.content}</P>
+
+                          <P><UserName>{message.user.name}: </UserName>{message.content}</P>
                         </div>
                       ))}
                     </div>
                   );
                 }
               }
+              </Query>
+
+              <Query query={GET_CURRENTINFO}>
+                {({ loading, error, data }) => {
+                  let info = data;
+                  let input;
+                  return(
+                <Mutation mutation={CREATE_MESSAGE} update={(cache, {data: {createMessage}}) => {
+                  const messageList = cache.readQuery({query: GET_MESSAGES});
+                  console.log(messageList)
+                  cache.writeQuery({
+                    query: GET_MESSAGES,
+                    data: { messages: [...messageList.messages, createMessage]}, __typename: "MessageConnection"
+                  })
+                  console.log(cache.readQuery({query: GET_MESSAGES}))
+                }}>
+                  {(createMessage) => (
+                    <div>
+                      <form
+                        onSubmit={e => {
+                          e.preventDefault();
+                          console.log(data)
+                          createMessage({ variables: { content: input.value, userid: info.currentUserID, room: info.currentRoomID} });
+                          input.value = "";
+                        }}
+                      >
+                        <input
+                          ref={node => {
+                            input = node;
+                          }}
+                        />
+                        <button type="submit">Send</button>
+                      </form>
+                    </div>
+                  )}
+                </Mutation>
+              )
+              }}
               </Query>
             </div>
             <InputBox></InputBox>

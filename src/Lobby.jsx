@@ -5,6 +5,7 @@ import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import catSVG from './assets/Group.svg';
 import {Link} from 'react-router-dom';
+import client from './index.js'
 
 const Card = styled.div`
 height: 800px;
@@ -75,38 +76,34 @@ ${props =>
   `;
 
 
-  const GET_CURRENTUSER = gql`
-  {
-    currentUser @client
-  }
-  `;
-
   const GET_USERS = gql`
   {
-    listUsers{
-      items{
-        userName
-      }
+    users{
+      name
     }
   }
   `;
   const GET_ROOMS= gql`
   {
-    listRooms{
-      items{
-        roomName
-      }
+    rooms{
+      name
+      id
     }
   }
   `;
-
-          // const CREATE_ROOM = gql`
-          //   mutation CreateRoom($userName: String!){
-          //     createRoom( input: { userName: $userName } ){
-          //       userName
-          //     }
-          //   }
-          // `
+//   const CREATE_ROOM = gql`
+//   mutation createRoom($name: String!, $users:[User!]) {
+//     createRoom(data: {
+//       name: $name,
+//       users: {
+//
+//       }
+//     }) {
+//       id
+//       type
+//     }
+//   }
+// `;
 class Lobby extends React.Component{
   constructor(props) {
     super(props);
@@ -118,10 +115,11 @@ class Lobby extends React.Component{
     console.log("not a function")
   }
 
-  setRoomToJoin(roomName) {
+  setRoomToJoin(roomName, roomid) {
     console.log(roomName)
     this.setState({selectedRoom: roomName});
     console.log(this.state.selectedRoom)
+    client.writeData({ data: { currentRoomID: roomid } })
   }
 
   render(){
@@ -154,9 +152,9 @@ class Lobby extends React.Component{
                 console.log(data)
                 return (
                   <div>
-                    {data.listRooms.items.map((item, index) => (
+                    {data.rooms.map((item, index) => (
                       <div key={index}>
-                        <input onClick={(event) => this.setRoomToJoin(event.target.value)} type="radio" name="roomList" value={item.roomName}/> <Span white >{item.roomName}'s Room</Span>
+                        <input onClick={(event) => this.setRoomToJoin(event.target.value, item.id)} type="radio" name="roomList" value={item.name}/> <Span white >{item.name}'s Room</Span>
                       </div>
                     ))}
                   </div>
@@ -182,9 +180,9 @@ class Lobby extends React.Component{
                   console.log(data)
                   return (
                     <div>
-                      {data.listUsers.items.map((item, index) => (
+                      {data.users.map((item, index) => (
                         <div key={index}>
-                          <input type="checkbox" value={item.userName}/> <Span white >{item.userName}</Span>
+                          <input type="checkbox" value={item.name}/> <Span white >{item.name}</Span>
                         </div>
                       ))}
                     </div>
@@ -192,6 +190,26 @@ class Lobby extends React.Component{
                 }
               }
             </Query>
+            {/* <Mutation mutation={ADD_TODO}>
+              {(createRoom, { data }) => (
+                <div>
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      createRoom({ variables: { type: input.value } });
+                      input.value = "";
+                    }}
+                  >
+                    <input
+                      ref={node => {
+                        input = node;
+                      }}
+                    />
+                    <button type="submit">Add Todo</button>
+                  </form>
+                </div>
+              )}
+            </Mutation> */}
             <button type="button" onClick={() => console.log("hello")}>Create Room</button>
           </div>
           </Card>
