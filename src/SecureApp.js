@@ -19,7 +19,7 @@ import AmplifyCustomUi from 'aws-amplify-react-custom-ui'
 
 async function updateUserList(){
   const { data } = await client.query({
-  query: gql`
+    query: gql`
     {
       listUsers
       {
@@ -28,17 +28,17 @@ async function updateUserList(){
         }
       }
     }
-  `,
-});
+    `,
+  });
   return data;
 }
 
 const CREATE_USER = gql`
-  mutation CreateUser($userName: String!){
-    createUser( input: { id: "1", userName: $userName } ){
-      userName
-    }
+mutation CreateUser($userName: String!){
+  createUser( input: { id: "1", userName: $userName } ){
+    userName
   }
+}
 `
 
 const H1 = styled.h1`
@@ -58,24 +58,24 @@ async function mutateUserList(currentUser){
 }
 
 const Header = styled.div`
-  width: 100%;
-  height: 70px;
-  background-color: #435772;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+width: 100%;
+height: 70px;
+background-color: #435772;
+display: flex;
+align-items: center;
+justify-content: space-between;
 
 `;
 
 const Button = styled.button`
-    width: 100px;
-    height: 40px;
-    background-color: #435772;
-    border-radius: 5px;
-    color: whitesmoke;
-    font-size: 14px;
-    border: 1px solid whitesmoke;
-    margin-top: 0;
+width: 100px;
+height: 40px;
+background-color: #435772;
+border-radius: 5px;
+color: whitesmoke;
+font-size: 14px;
+border: 1px solid whitesmoke;
+margin-top: 0;
 `;
 
 const GET_CURRENTUSER = gql`
@@ -96,8 +96,8 @@ class App extends Component {
 
   logUser() {
     Auth.currentAuthenticatedUser({ bypassCache: false })
-      .then(user => console.log(user))
-      .catch(err => console.log(err))
+    .then(user => console.log(user))
+    .catch(err => console.log(err))
   }
 
 
@@ -111,7 +111,7 @@ class App extends Component {
         console.log("hit")
         mutateUserList(currentUser);
       }
-      });
+    });
 
     return (
       <div>
@@ -119,8 +119,9 @@ class App extends Component {
           <div style={{display: 'flex',  width: '100%', justifyContent: 'space-between', margin: '0 auto', padding: '0 32px'}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <img style={{padding: '8px'}} src={catSVG}/>
-              <Link style={{textDecoration: 'none'}} to="/chatroom/chat-bois"><H1>Le Chat</H1></Link>
-              <Link style={{textDecoration: 'none'}} to="/"><H1>Lobby</H1></Link>
+              <Link style={{textDecoration: 'none', marginLeft: '20px'}} to="/">
+              <H1>Le Chat Noir</H1>
+            </Link>
             </div>
             <style jsx>{`
               H1:hover{
@@ -130,9 +131,9 @@ class App extends Component {
                 border: 1px solid #549EC5;
                 color: #549EC5;
               }
-            `}</style>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <Link to="/" style={{textDecoration: 'none'}}>
+              `}</style>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+                <Link to="/" style={{textDecoration: 'none'}}>
                 <Query query={GET_CURRENTUSER}>
                   {({ loading, error, data }) => {
                     if (loading) return "Loading...";
@@ -155,7 +156,7 @@ class App extends Component {
           <Route path='/chatroom/:id' render={()=><ChatRoom />} />
           <Route component={Error404} />
         </Switch>
-    </div>
+      </div>
 
     );
   }
