@@ -131,7 +131,12 @@ class ChatRoom extends React.Component{
   constructor(props) {
     super(props);
   }
-
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+  componentDidMount() {
+    this.scrollToBottom("chatview")
+  }
   render(){
     return(
       <Div column>
@@ -181,7 +186,8 @@ class ChatRoom extends React.Component{
                 }
               }
               </Query>
-
+              <div id="chatview" ref={(el) => { this.messagesEnd = el; }}>></div>
+            </div>
               <Query query={GET_CURRENTINFO}>
                 {({ loading, error, data }) => {
                   let info = data;
@@ -204,9 +210,10 @@ class ChatRoom extends React.Component{
                           console.log(data)
                           createMessage({ variables: { content: input.value, userid: info.currentUserID, room: info.currentRoomID} });
                           input.value = "";
+                          this.scrollToBottom("chatview")
                         }}
                       >
-                        <input
+                        <InputBox
                           ref={node => {
                             input = node;
                           }}
@@ -219,8 +226,7 @@ class ChatRoom extends React.Component{
               )
               }}
               </Query>
-            </div>
-            <InputBox></InputBox>
+
           </Card>
       </Div>
     </Div>

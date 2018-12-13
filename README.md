@@ -1,3 +1,22 @@
+# Chat Noir
+
+# A Cloud-Based Chat Room, 2018
+
+## Created by Joe Friesen, Michael Meow, Dan Mace, Luke Vandekieft, and Ben Kiggen
+
+##Description
+
+This app utilizes graphql, apollo, prisma, cognito, react, styled components, and amplify to create a chat room. Users can create or login with an account, create or join a room, and post messages.
+
+##Setup/Installation Instructions
+
+
+```
+$git clone https://github.com/swampcamel/chatnoir
+$npm i
+$npm run start
+
+```
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -37,8 +56,10 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Support and Contact Details
+Please contact benkiggen@gmail.com with any questions or requests.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##License
+This software is licensed under the MIT License.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Copyright (c) 2018 Luke Vandekieft, Ben Kiggen, Joe Friesen, Dan Mace, and Michael Meow
