@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import catSVG from './assets/Group.svg';
+import {Link} from 'react-router-dom';
 
 const Card = styled.div`
 height: 800px;
@@ -109,13 +110,22 @@ ${props =>
 class Lobby extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {selectedRoom: null}
+    this.setRoomToJoin = this.setRoomToJoin.bind(this);
   }
 
   loadUsersToRoom(activeUser, selectedUsers) {
     console.log("not a function")
   }
 
+  setRoomToJoin(roomName) {
+    console.log(roomName)
+    this.setState({selectedRoom: roomName});
+    console.log(this.state.selectedRoom)
+  }
+
   render(){
+    console.log(this)
     return(
       <Div column>
         <Div row>
@@ -146,7 +156,7 @@ class Lobby extends React.Component{
                   <div>
                     {data.listRooms.items.map((item, index) => (
                       <div key={index}>
-                        <input type="radio" name="roomList" value={item.roomName}/> <Span white >{item.roomName}</Span>
+                        <input onClick={(event) => this.setRoomToJoin(event.target.value)} type="radio" name="roomList" value={item.roomName}/> <Span white >{item.roomName}</Span>
                       </div>
                     ))}
                   </div>
@@ -154,7 +164,8 @@ class Lobby extends React.Component{
               }
             }
             </Query>
-          <button type="button" onClick={() => console.log("hello")}>Join Room</button>
+            <Link to={`/chatroom/${this.state.selectedRoom}`}>
+          <button type="button" onClick={() => console.log("hello")}>Join Room</button></Link>
           </form>
         </div>
           </Card>

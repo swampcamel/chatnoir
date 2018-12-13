@@ -1,166 +1,23 @@
-import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import logo from './logo.svg';
-import './App.css';
-import gql from "graphql-tag";
-import Login from './Login';
-import SignUp from './SignUp';
-import Lobby from './Lobby';
-import ChatRoom from './ChatRoom';
-import Error404 from './Error404';
+
+import React, { Component } from "react";
+import * as aws_amplify_react from "aws-amplify-react";
 import Amplify, { Auth } from 'aws-amplify';
+import AmplifyCustomUi from 'aws-amplify-react-custom-ui'
 import aws_exports from './aws-exports';
-import client from './index.js'
-import { withAuthenticator } from 'aws-amplify-react';
-import { ApolloConsumer } from 'react-apollo';
-import styled, { css } from 'styled-components';
-import catSVG from './assets/Group.svg';
-import { Query } from "react-apollo";
+import SignUp from './SignUp';
+import SecureApp from "./SecureApp"
+
 Amplify.configure(aws_exports);
-
-async function updateUserList(){
-  const { data } = await client.query({
-  query: gql`
-    {
-      listUsers
-      {
-        items{
-          userName
-        }
-      }
-    }
-  `,
-});
-  return data;
-}
-
-const CREATE_USER = gql`
-  mutation CreateUser($userName: String!){
-    createUser( input: { userName: $userName } ){
-      userName
-    }
-  }
-`
-
-const H1 = styled.h1`
-font-size: 26px;
-color: whitesmoke;
-padding: 10px;
-margin: 0;
-`;
-
-async function mutateUserList(currentUser){
-  const { data } = await client.mutate({
-    mutation: CREATE_USER,
-    variables: { userName: currentUser},
-  });
-  return data;
-}
-
-const Header = styled.div`
-  width: 100%;
-  height: 70px;
-  background-color: #435772;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-`;
-
-const Button = styled.button`
-    width: 100px;
-    height: 40px;
-    background-color: #435772;
-    border-radius: 5px;
-    color: whitesmoke;
-    font-size: 14px;
-    border: 1px solid whitesmoke;
-    margin-top: 0;
-`;
-
-const GET_CURRENTUSER = gql`
-{
-  currentUser @client
-}
-`;
-
+AmplifyCustomUi.configure(aws_amplify_react);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  signOut() {
-    Auth.signOut({ global: true }).then(() => this.props.onStateChange('signedOut', null)).catch(err => console.log(err));
-  }
-
-  logUser() {
-    Auth.currentAuthenticatedUser({ bypassCache: false })
-      .then(user => console.log(user))
-      .catch(err => console.log(err))
+  componentWillMount() {
+    AmplifyCustomUi.setSignIn(SignUp);
   }
 
   render() {
-    let currentUser = this.props.authData.username;
-
-    client.writeData({ data: { currentUser: currentUser } })
-    updateUserList().then(data => {
-      let userArray = data.listUsers.items;
-      const result = userArray.filter(user => user.userName == currentUser);
-      if(result.length <= 0){
-        console.log("hit")
-        mutateUserList(currentUser);
-      }
-      });
-
-    return (
-      <div>
-        <Header>
-          <div style={{display: 'flex', minWidth: '1550px', justifyContent: 'space-between', margin: '0 auto'}}>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <img style={{padding: '8px'}} src={catSVG}/>
-              <Link style={{textDecoration: 'none'}} to="/chatroom/chat-bois"><H1>Chat</H1></Link>
-              <Link style={{textDecoration: 'none'}} to="/"><H1>Lobby</H1></Link>
-            </div>
-            <style jsx>{`
-              H1:hover{
-                color: #549EC5;
-              }
-              Button:hover{
-                border: 1px solid #549EC5;
-                color: #549EC5;
-              }
-            `}</style>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <Link to="/" style={{textDecoration: 'none'}}>
-                <Query query={GET_CURRENTUSER}>
-                  {({ loading, error, data }) => {
-                    if (loading) return "Loading...";
-                    if (error) return `Error! ${error.message}`;
-                    console.log(data)
-                    return (
-                      <H1>
-                        { data.currentUser }
-                      </H1>
-                    );
-                  }}
-                </Query>
-              </Link>
-              <Button type="button" onClick={() => this.signOut()}>Sign Out</Button>
-            </div>
-          </div>
-        </Header>
-        <Switch>
-          <Route exact path='/' render={()=><Lobby />} />
-          <Route path='/chatroom/:id' render={()=><ChatRoom />} />
-          <Route component={Error404} />
-        </Switch>
-        <br/>
-        <button onClick={() => this.logUser()}>Log user</button>
-    </div>
-
-    );
+    return <SecureApp />;
   }
 }
 
-export default withAuthenticator(App);
+export default App;
