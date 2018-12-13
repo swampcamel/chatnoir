@@ -1,0 +1,27 @@
+type User {
+  id: ID!
+  name: String!
+  rooms: [Room!]!
+}
+
+type Room {
+  id: ID!
+  name: String!
+  messages: [Message!]!
+  users: [ID!]!
+}
+
+type Message {
+  id: ID!
+  content: String!
+  room: ID!
+  user: ID!
+}
+
+type Query {
+  info: String
+}
+
+type Mutation {
+  changeInfo: String
+}

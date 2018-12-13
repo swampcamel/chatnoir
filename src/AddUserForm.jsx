@@ -21,10 +21,8 @@ const CREATE_USER = gql`
 
 const GET_USERS = gql`
   {
-    listUsers{
-      items{
-        userName
-      }
+    users{
+      name
     }
   }
 `;
