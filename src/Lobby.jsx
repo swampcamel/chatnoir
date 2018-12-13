@@ -156,7 +156,7 @@ class Lobby extends React.Component{
                   <div>
                     {data.listRooms.items.map((item, index) => (
                       <div key={index}>
-                        <input onClick={(event) => this.setRoomToJoin(event.target.value)} type="radio" name="roomList" value={item.roomName}/> <Span white >{item.roomName}</Span>
+                        <input onClick={(event) => this.setRoomToJoin(event.target.value)} type="radio" name="roomList" value={item.roomName}/> <Span white >{item.roomName}'s Room</Span>
                       </div>
                     ))}
                   </div>
