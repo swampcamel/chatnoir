@@ -89,7 +89,15 @@ const InputBox = styled.textarea`
   color: white;
 `
 
-
+const GET_MESSAGES = gql`
+{
+  messages {
+    content
+      user{
+        name
+      }
+    }
+}`
 
 class ChatRoom extends React.Component{
   constructor(props) {
@@ -127,30 +135,23 @@ class ChatRoom extends React.Component{
               <H1>You and Your Buddies</H1>
             </CardHeader>
             <div style={{padding: '20px', height: '73%', overflowY: 'scroll', marginBottom:'20px'}}>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
-              <P><span>timestamp: </span>chit chat chat</P>
-              <P2><span>timestamp: </span>chit chat chat</P2>
+              <Query query={GET_MESSAGES}>
+                {({ loading, error, data }) => {
+                  if (loading) return "Loading...";
+                  if (error) return `Error! ${error.message}`;
+                  console.log(data)
+                  return (
+                    <div>
+                      {data.messages.map((message, index) => (
+                        <div key={index}>
+                          <P>{message.content}</P>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+              }
+              </Query>
             </div>
             <InputBox></InputBox>
           </Card>
